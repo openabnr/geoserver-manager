@@ -5,8 +5,8 @@
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights 
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
 *
@@ -22,7 +22,7 @@
 * THE SOFTWARE.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
@@ -30,14 +30,14 @@
 
     <groupId>it.geosolutions</groupId>
     <artifactId>geoserver-manager</artifactId>
-    <version>1.8-SNAPSHOT</version>
+    <version>1.8.1.vng</version>
 
     <packaging>jar</packaging>
 
     <name>GeoServer Manager - REST based</name>
     <description>
-        GeoServer Manager is a library to interact with GeoServer 
-        The scope of this library is to have a simple API, and use as few external 
+        GeoServer Manager is a library to interact with GeoServer
+        The scope of this library is to have a simple API, and use as few external
         libs as possible.
     </description>
 
@@ -324,7 +324,7 @@
                 <version>1.2.16</version>
              </dependency>
         </dependency>-->
-        
+
         <!--================================================================= -->
         <!-- TEST -->
         <!--================================================================= -->
