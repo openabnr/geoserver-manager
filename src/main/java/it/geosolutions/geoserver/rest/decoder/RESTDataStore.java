@@ -1,6 +1,6 @@
 /*
  *  GeoServer-Manager - Simple Manager Library for GeoServer
- *  
+ *
  *  Copyright (C) 2007,2014 GeoSolutions S.A.S.
  *  http://www.geo-solutions.it
  *
@@ -10,10 +10,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -73,6 +73,7 @@ public class RESTDataStore {
         POSTGIS("postgis"),
         ORACLE("oracle"),
         SHP("shp"),
+        GEOPKG("geopkg"),
         UNKNOWN(null);
         private final String restName;
 
@@ -113,11 +114,11 @@ public class RESTDataStore {
     public String getName() {
         return dsElem.getChildText("name");
     }
-    
+
     public String getStoreType() {
     	return dsElem.getChildText("type");
     }
-    
+
     public String getDescription() {
         return dsElem.getChildText("description");
     }
@@ -125,11 +126,11 @@ public class RESTDataStore {
     public boolean isEnabled() {
     	return Boolean.parseBoolean(dsElem.getChildText("enabled"));
     }
-    
+
     public String getWorkspaceName() {
         return dsElem.getChild("workspace").getChildText("name");
     }
-    
+
     public Map<String, String> getConnectionParameters() {
         Element elConnparm = dsElem.getChild("connectionParameters");
         if (elConnparm != null) {
@@ -160,7 +161,7 @@ public class RESTDataStore {
 
         return null;
     }
-	
+
     public DBType getType() {
         return DBType.get(getConnectionParameter("dbtype"));
     }
