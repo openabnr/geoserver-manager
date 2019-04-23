@@ -396,10 +396,14 @@ public class HTTPUtils {
                 return response;
             default:
                 responseBody = httpMethod.getResponseBodyAsStream();
+				String res = null;
+				if (responseBody != null) {
+				  res = IOUtils.toString(responseBody);
+				}
                 LOGGER.warn("Bad response: code[" + status + "]" + " msg[" + httpMethod.getStatusText() + "]"
                             + " url[" + url + "]" + " method[" + httpMethod.getClass().getSimpleName()
                             + "]: " + (responseBody != null ? IOUtils.toString(responseBody) : ""));
-                return null;
+                return res;
             }
         } catch (ConnectException e) {
             LOGGER.info("Couldn't connect to [" + url + "]");

@@ -29,6 +29,7 @@ import it.geosolutions.geoserver.rest.HTTPUtils;
 import it.geosolutions.geoserver.rest.Util;
 import it.geosolutions.geoserver.rest.decoder.RESTStyle;
 import it.geosolutions.geoserver.rest.decoder.RESTStyleList;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -36,6 +37,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -44,6 +46,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -332,6 +335,33 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
         LOGGER.debug("POSTing new style " + name + " to " + sUrl + " using version: " + contentType);
         String result = HTTPUtils.post(sUrl.toString(), sldFile, contentType, gsuser, gspass);
         return result != null;
+    }
+    
+    /**
+     * Store and publish a Style, assigning it a name.
+     *
+     * @param sldBody the full SLD document as a String.
+     * @param name the Style name.
+     *
+     * @return <TT>true</TT> if the operation completed successfully.
+     * @throws IllegalArgumentException if the style body is null or empty.
+     */
+    public String publishStyle2(final String sldBody, final String name)
+            throws IllegalArgumentException {
+        /*
+         * This is the equivalent call with cUrl:
+         *
+         * {@code curl -u admin:geoserver -XPOST \ -H 'Content-type: application/vnd.ogc.sld+xml' \ -d @$FULLSLD \
+         * http://$GSIP:$GSPORT/$SERVLET/rest/styles?name=name}
+         */
+        if (sldBody == null || sldBody.isEmpty()) {
+            throw new IllegalArgumentException("The style body may not be null or empty");
+        }
+
+        String sUrl = buildPostUrl(null, name);
+
+        final String result = HTTPUtils.post(sUrl, sldBody, "application/vnd.ogc.sld+xml", gsuser, gspass);
+        return result;
     }
     
     /**
