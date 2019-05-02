@@ -446,11 +446,11 @@ public class HTTPUtils {
           return response;
         default:
           responseBody = httpMethod.getResponseBodyAsStream();
-          LOGGER.warn("Bad response: code[" + status + "]" + " msg[" + httpMethod.getStatusText() + "]" + " url[" + url + "]" + " method[" + httpMethod.getClass().getSimpleName() + "]: " + (responseBody != null ? IOUtils.toString(responseBody) : ""));
           String res = null;
           if (responseBody != null) {
             res = IOUtils.toString(responseBody);
           }
+          LOGGER.warn("Bad response: code[" + status + "]" + " msg[" + httpMethod.getStatusText() + "]" + " url[" + url + "]" + " method[" + httpMethod.getClass().getSimpleName() + "]");
           lastError = res;
           return null;
       }
