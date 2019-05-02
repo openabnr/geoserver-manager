@@ -59,7 +59,7 @@ import org.xml.sax.SAXException;
 public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(GeoServerRESTStyleManager.class);
-    
+
     /**
      * Default constructor.
      *
@@ -81,7 +81,7 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
     public boolean existsStyle(String name) throws RuntimeException {
         return existsStyle(name, Util.DEFAULT_QUIET_ON_NOT_FOUND);
     }
-    
+
     /**
      * Check if a Style exists in the configured GeoServer instance. User can choose if log a possible exception or not
      * @param name the name of the style to check for.
@@ -143,7 +143,7 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
     public boolean existsStyle(String workspace, String name) {
         return existsStyle(workspace, name, Util.DEFAULT_QUIET_ON_NOT_FOUND);
     }
-    
+
     /**
     *
     * @since GeoServer 2.6
@@ -250,6 +250,36 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
         final String result = HTTPUtils.post(sUrl, sldBody, "application/vnd.ogc.sld+xml", gsuser, gspass);
         return result != null;
     }
+    
+    /**
+     * Store and publish a Style, assigning it a name.
+     *
+     * @param sldBody the full SLD document as a String.
+     * @param name the Style name.
+     *
+     * @return <TT>true</TT> if the operation completed successfully.
+     * @throws IllegalArgumentException if the style body is null or empty.
+     */
+    public String publishStyle2(final String sldBody, final String name)
+            throws Exception {
+        /*
+         * This is the equivalent call with cUrl:
+         *
+         * {@code curl -u admin:geoserver -XPOST \ -H 'Content-type: application/vnd.ogc.sld+xml' \ -d @$FULLSLD \
+         * http://$GSIP:$GSPORT/$SERVLET/rest/styles?name=name}
+         */
+        if (sldBody == null || sldBody.isEmpty()) {
+            throw new IllegalArgumentException("The style body may not be null or empty");
+        }
+
+        String sUrl = buildPostUrl(null, name);
+
+        String result = HTTPUtils.post(sUrl, sldBody, "application/vnd.ogc.sld+xml", gsuser, gspass);
+        if (result == null) {
+          result = HTTPUtils.getLastError();
+        }
+        return result;
+    }
 
     /**
      * Store and publish a Style.
@@ -276,7 +306,7 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
         String result = HTTPUtils.post(sUrl, sldFile, GeoServerRESTPublisher.Format.SLD.getContentType(), gsuser, gspass);
         return result != null;
     }
-    
+
     /**
      * Store and publish a Style, assigning it a name and choosing the raw
      * format.
@@ -297,7 +327,7 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
         if (sldBody == null || sldBody.isEmpty()) {
             throw new IllegalArgumentException("The style body may not be null or empty");
         }
-        
+
         StringBuilder sUrl = new StringBuilder(buildPostUrl(null, name));
         Util.appendParameter(sUrl, "raw", ""+raw);
         String contentType = GeoServerRESTPublisher.Format.SLD.getContentType();
@@ -308,7 +338,7 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
         String result = HTTPUtils.post(sUrl.toString(), sldBody, contentType, gsuser, gspass);
         return result != null;
     }
-    
+
     /**
      * Store and publish a Style, assigning it a name and choosing the raw
      * format.
@@ -336,45 +366,18 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
         String result = HTTPUtils.post(sUrl.toString(), sldFile, contentType, gsuser, gspass);
         return result != null;
     }
-    
-    /**
-     * Store and publish a Style, assigning it a name.
-     *
-     * @param sldBody the full SLD document as a String.
-     * @param name the Style name.
-     *
-     * @return <TT>true</TT> if the operation completed successfully.
-     * @throws IllegalArgumentException if the style body is null or empty.
-     */
-    public String publishStyle2(final String sldBody, final String name)
-            throws IllegalArgumentException {
-        /*
-         * This is the equivalent call with cUrl:
-         *
-         * {@code curl -u admin:geoserver -XPOST \ -H 'Content-type: application/vnd.ogc.sld+xml' \ -d @$FULLSLD \
-         * http://$GSIP:$GSPORT/$SERVLET/rest/styles?name=name}
-         */
-        if (sldBody == null || sldBody.isEmpty()) {
-            throw new IllegalArgumentException("The style body may not be null or empty");
-        }
 
-        String sUrl = buildPostUrl(null, name);
-
-        final String result = HTTPUtils.post(sUrl, sldBody, "application/vnd.ogc.sld+xml", gsuser, gspass);
-        return result;
-    }
-    
     /**
      * Update a Style.
-     * 
+     *
      * @param sldFile the File containing the SLD document.
      * @param name the Style name.
      * @param raw the raw format
-     * 
+     *
      * @return <TT>true</TT> if the operation completed successfully.
      * @throws IllegalArgumentException if the style body or name are null or empty.
      */
-    public boolean updateStyle(final File sldFile, final String name, final boolean raw) 
+    public boolean updateStyle(final File sldFile, final String name, final boolean raw)
             throws IllegalArgumentException {
         /*
          * This is the equivalent call with cUrl:
@@ -387,7 +390,7 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
         } else if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("The style name may not be null or empty");
         }
-        
+
         StringBuilder sUrl = new StringBuilder(buildUrl(null, name, null));
         Util.appendParameter(sUrl, "raw", ""+raw);
         String contentType = GeoServerRESTPublisher.Format.SLD.getContentType();
@@ -398,18 +401,18 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
         String result = HTTPUtils.put(sUrl.toString(), sldFile, contentType, gsuser, gspass);
         return result != null;
     }
-    
+
     /**
      * Update a Style.
-     * 
+     *
      * @param sldBody the new SLD document as a String.
      * @param name the Style name.
      * @param raw the raw format
-     * 
+     *
      * @return <TT>true</TT> if the operation completed successfully.
      * @throws IllegalArgumentException if the style body or name are null or empty.
      */
-    public boolean updateStyle(final String sldBody, final String name, final boolean raw) 
+    public boolean updateStyle(final String sldBody, final String name, final boolean raw)
             throws IllegalArgumentException {
         /*
          * This is the equivalent call with cUrl:
@@ -422,7 +425,7 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
         } else if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("The style name may not be null or empty");
         }
-        
+
         StringBuilder sUrl = new StringBuilder(buildUrl(null, name, null));
         Util.appendParameter(sUrl, "raw", ""+raw);
         String contentType = GeoServerRESTPublisher.Format.SLD.getContentType();
@@ -512,8 +515,8 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
         if(styleName.contains(":"))
             LOGGER.warn("Style name is going to be changed ["+styleName+"]");
         styleName = styleName.replaceAll(":", "_");
-        
-        // currently REST interface does't support URLencoded URL 
+
+        // currently REST interface does't support URLencoded URL
 //        styleName = URLEncoder.encode(styleName);
 
         String sUrl = buildUrl(null, styleName, null);
@@ -763,7 +766,7 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
             sUrl.append("/workspaces/").append(workspace);
 
         sUrl.append("/styles/").append(URLEncoder.encode(name));
-                
+
         if(ext != null)
             sUrl.append(ext);
 
@@ -804,7 +807,7 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
         }
         return result;
     }
-    
+
     private boolean checkSLD10Version(Document doc) {
         boolean result = false;
         try {
@@ -817,5 +820,5 @@ public class GeoServerRESTStyleManager extends GeoServerRESTAbstractManager {
         }
         return result;
     }
-    
+
 }

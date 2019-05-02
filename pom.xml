@@ -30,7 +30,7 @@
 
     <groupId>it.geosolutions</groupId>
     <artifactId>geoserver-manager</artifactId>
-    <version>1.8.4.vng</version>
+    <version>1.8.5.vng</version>
 
     <packaging>jar</packaging>
 
