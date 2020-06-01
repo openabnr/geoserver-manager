@@ -1,3 +1,3 @@
 # geoserver-manager
-geoserver-manager modified by vng
+geoserver-manager modified by abonaro
 
