@@ -28,9 +28,9 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>it.geosolutions</groupId>
+    <groupId>com.abonaro.gis</groupId>
     <artifactId>geoserver-manager</artifactId>
-    <version>1.8.5.vng</version>
+    <version>1.8.5</version>
 
     <packaging>jar</packaging>
 
