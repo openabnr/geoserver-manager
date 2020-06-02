@@ -33,28 +33,32 @@ import org.jdom.Element;
 /**
  * Parses list of summary data about WmsStores.
  *
- * <P>This is the XML REST representation:
- * <PRE>{@code 
-<wmsStores>
-	<wmsStore>
-		<name>regione</name>
-		<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="alternate" href="http://172.27.30.25:8080/geoserver/rest/workspaces/arit/wmsstores/regione.xml" type="application/xml"/>
-	</wmsStore>
-</wmsStores>
- *
-}</PRE>
+ * <P>
+ * This is the XML REST representation:
+ * 
+ * <PRE>
+ * {@code 
+ * <wmsStores>
+ * 	<wmsStore>
+ * 		<name>regione</name>
+ * 		<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="alternate" href="http://172.27.30.25:8080/geoserver/rest/workspaces/arit/wmsstores/regione.xml" type="application/xml"/>
+ * 	</wmsStore>
+ * </wmsStores>
+ * 
+ * }
+ * </PRE>
  *
  * @author cip
  */
 public class RESTWmsStoreList extends RESTAbstractList<NameLinkElem> {
-
-    public static RESTWmsStoreList build(String response) {
-        Element elem = JDOMBuilder.buildElement(response);
-        return elem == null? null : new RESTWmsStoreList(elem);
-	}
-
-    protected RESTWmsStoreList(Element list) {
-        super(list);
-    }
-    
+  
+  public static RESTWmsStoreList build(String response) {
+    Element elem = JDOMBuilder.buildElement(response);
+    return elem == null ? null : new RESTWmsStoreList(elem);
+  }
+  
+  protected RESTWmsStoreList(Element list) {
+    super(list);
+  }
+  
 }

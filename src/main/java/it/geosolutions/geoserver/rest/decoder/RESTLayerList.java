@@ -34,31 +34,32 @@ import org.jdom.Element;
  * Parses list of summary data about Layers.
  *
  *
- * Layer summary info.
- * <BR>This is an XML fragment:
+ * Layer summary info. <BR>
+ * This is an XML fragment:
+ * 
  * <PRE>
- *{@code
-<layer>
-    <name>states</name>
-    <atom:link
-        xmlns:atom="http://www.w3.org/2005/Atom"
-        rel="alternate"
-        href="http://localhost:8080/geoserver/rest/layers/states.xml"
-        type="application/xml"/>
-</layer>
- * }
+ * {@code
+ * <layer>
+ *     <name>states</name>
+ *     <atom:link
+ *         xmlns:atom="http://www.w3.org/2005/Atom"
+ *         rel="alternate"
+ *         href="http://localhost:8080/geoserver/rest/layers/states.xml"
+ *         type="application/xml"/>
+ * </layer>
+ *  }
  * </PRE>
-
+ * 
  * @author ETj (etj at geo-solutions.it)
  */
 public class RESTLayerList extends RESTAbstractList<NameLinkElem> {
-
-    public static RESTLayerList build(String response) {
-        Element elem = JDOMBuilder.buildElement(response);
-        return elem == null? null : new RESTLayerList(elem);
-	}
-
-    protected RESTLayerList(Element list) {
-        super(list);
-    }
+  
+  public static RESTLayerList build(String response) {
+    Element elem = JDOMBuilder.buildElement(response);
+    return elem == null ? null : new RESTLayerList(elem);
+  }
+  
+  protected RESTLayerList(Element list) {
+    super(list);
+  }
 }

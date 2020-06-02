@@ -29,22 +29,22 @@ import org.junit.Test;
  * 
  */
 public class GSIdentifierInfoEncoderTest {
-
-	@Test
-	public void identifierInfoTest() {
-		GSIdentifierInfoEncoder encoder = new GSIdentifierInfoEncoder();
-		encoder.setup("authority1", "identifier1");
-
-		Assert.assertEquals("authority1", encoder.getAuthority());
-		Assert.assertEquals("identifier1", encoder.getIdentifier());
-
-		Assert.assertTrue(encoder.delIdentifier());
-		Assert.assertNull(encoder.getIdentifier());
-
-		encoder.setAuthority("authority2");
-		encoder.setIdentifier("identifier2");
-		Assert.assertEquals("authority2", encoder.getAuthority());
-		Assert.assertEquals("identifier2", encoder.getIdentifier());
-
-	}
+  
+  @Test
+  public void identifierInfoTest() {
+    GSIdentifierInfoEncoder encoder = new GSIdentifierInfoEncoder();
+    encoder.setup("authority1", "identifier1");
+    
+    Assert.assertEquals("authority1", encoder.getAuthority());
+    Assert.assertEquals("identifier1", encoder.getIdentifier());
+    
+    Assert.assertTrue(encoder.delIdentifier());
+    Assert.assertNull(encoder.getIdentifier());
+    
+    encoder.setAuthority("authority2");
+    encoder.setIdentifier("identifier2");
+    Assert.assertEquals("authority2", encoder.getAuthority());
+    Assert.assertEquals("identifier2", encoder.getIdentifier());
+    
+  }
 }

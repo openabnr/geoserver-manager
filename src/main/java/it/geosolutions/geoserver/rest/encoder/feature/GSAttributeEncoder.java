@@ -39,54 +39,51 @@ import org.jdom.filter.Filter;
  *
  */
 public class GSAttributeEncoder extends PropertyXMLEncoder {
+  
+  public static class filterByName implements Filter {
     
-    public static class filterByName implements Filter {
-        
-        final private String key;
-        
-        public filterByName(String keyword){
-            this.key=keyword;
-        }
-        
-        private static final long serialVersionUID = 1L;
-
-        public boolean matches(Object obj) {
-                Element el=((Element) obj).getChild(FeatureTypeAttribute.name.toString());
-                if (el!=null && el.getTextTrim().equals(key)) {
-                        return true;
-                }
-                return false;
-        }
+    final private String key;
+    
+    public filterByName(String keyword) {
+      this.key = keyword;
     }
     
-    public static Filter getFilterByName(String name){
-        return new filterByName(name);
-    }
-
-    public GSAttributeEncoder() {
-        super("attribute");
-    }
+    private static final long serialVersionUID = 1L;
     
-    public void setup(Map<FeatureTypeAttribute, String> attributes){
-        for (Entry<FeatureTypeAttribute,String> attr:attributes.entrySet()){
-            set(attr.getKey().toString(),attr.getValue());
-        }
+    public boolean matches(Object obj) {
+      Element el = ((Element) obj).getChild(FeatureTypeAttribute.name.toString());
+      if (el != null && el.getTextTrim().equals(key)) {
+        return true;
+      }
+      return false;
     }
-    
-    public void setAttribute(FeatureTypeAttribute type, String value){
-        set(type.toString(),value);
+  }
+  
+  public static Filter getFilterByName(String name) {
+    return new filterByName(name);
+  }
+  
+  public GSAttributeEncoder() {
+    super("attribute");
+  }
+  
+  public void setup(Map<FeatureTypeAttribute, String> attributes) {
+    for (Entry<FeatureTypeAttribute, String> attr : attributes.entrySet()) {
+      set(attr.getKey().toString(), attr.getValue());
     }
-    
-    public void delAttribute(FeatureTypeAttribute type){
-        ElementUtils.remove(this.getRoot(), get(type.toString()));
-    }
-    
-    public String getAttribute(FeatureTypeAttribute type){
-        Element el = get(type.toString());
-        if (el!=null)
-            return el.getTextTrim();
-        else
-            return null;
-    }
+  }
+  
+  public void setAttribute(FeatureTypeAttribute type, String value) {
+    set(type.toString(), value);
+  }
+  
+  public void delAttribute(FeatureTypeAttribute type) {
+    ElementUtils.remove(this.getRoot(), get(type.toString()));
+  }
+  
+  public String getAttribute(FeatureTypeAttribute type) {
+    Element el = get(type.toString());
+    if (el != null) return el.getTextTrim();
+    else return null;
+  }
 }
-

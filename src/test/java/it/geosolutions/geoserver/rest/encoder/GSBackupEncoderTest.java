@@ -24,38 +24,34 @@ import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-
 /**
  *
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  */
-public class GSBackupEncoderTest extends TestCase
-{
-
-    /**
-     * Default logger
-     */
-    protected static final Logger LOGGER = Logger.getLogger(GSBackupEncoderTest.class);
-
-
-    @Test
-    public void testAll()
-    {
-        final GSBackupEncoder bkpenc = new GSBackupEncoder("BK1");
-        LOGGER.info(bkpenc.toString());
-
-        bkpenc.setPath("test_path");
-        LOGGER.info(bkpenc.toString());
-        bkpenc.setPath("new_path");
-        LOGGER.info(bkpenc.toString());
-
-        bkpenc.setIncludeData(true);
-        LOGGER.info(bkpenc.toString());
-
-        bkpenc.setIncludeGwc(false);
-        LOGGER.info(bkpenc.toString());
-
-        bkpenc.setIncludeLog(false);
-        LOGGER.info(bkpenc.toString());
-}
+public class GSBackupEncoderTest extends TestCase {
+  
+  /**
+   * Default logger
+   */
+  protected static final Logger LOGGER = Logger.getLogger(GSBackupEncoderTest.class);
+  
+  @Test
+  public void testAll() {
+    final GSBackupEncoder bkpenc = new GSBackupEncoder("BK1");
+    LOGGER.info(bkpenc.toString());
+    
+    bkpenc.setPath("test_path");
+    LOGGER.info(bkpenc.toString());
+    bkpenc.setPath("new_path");
+    LOGGER.info(bkpenc.toString());
+    
+    bkpenc.setIncludeData(true);
+    LOGGER.info(bkpenc.toString());
+    
+    bkpenc.setIncludeGwc(false);
+    LOGGER.info(bkpenc.toString());
+    
+    bkpenc.setIncludeLog(false);
+    LOGGER.info(bkpenc.toString());
+  }
 }

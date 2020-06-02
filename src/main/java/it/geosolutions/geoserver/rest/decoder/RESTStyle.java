@@ -32,39 +32,37 @@ import org.jdom.Element;
  * @author ETj (etj at geo-solutions.it)
  */
 public class RESTStyle {
-
-    private final Element elem;
-
-    public static RESTStyle build(String xml) {
-        if (xml == null) {
-            return null;
-        }
-
-        Element e = JDOMBuilder.buildElement(xml);
-        if (e != null) {
-            return new RESTStyle(e);
-        } else {
-            return null;
-        }
+  
+  private final Element elem;
+  
+  public static RESTStyle build(String xml) {
+    if (xml == null) {
+      return null;
     }
-
-    protected RESTStyle(Element elem) {
-        this.elem = elem;
+    
+    Element e = JDOMBuilder.buildElement(xml);
+    if (e != null) {
+      return new RESTStyle(e);
+    } else {
+      return null;
     }
-
-    public String getName() {
-        return elem.getChildText("name");
-    }
-
-    public String getFileName() {
-        return elem.getChildText("filename");
-    }
-
-    public String getWorkspace() {
-        if(elem.getChild("workspace") != null)
-            return elem.getChild("workspace").getChildText("name");
-        else
-            return null;
-    }
-
+  }
+  
+  protected RESTStyle(Element elem) {
+    this.elem = elem;
+  }
+  
+  public String getName() {
+    return elem.getChildText("name");
+  }
+  
+  public String getFileName() {
+    return elem.getChildText("filename");
+  }
+  
+  public String getWorkspace() {
+    if (elem.getChild("workspace") != null) return elem.getChild("workspace").getChildText("name");
+    else return null;
+  }
+  
 }

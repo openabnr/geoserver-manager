@@ -37,24 +37,24 @@ import org.slf4j.LoggerFactory;
 /**
  * Simple class for testing that the DeleteAllLayerGroups() method behaves correctly.
  * 
- * @author Nicola Lagomarsini 
+ * @author Nicola Lagomarsini
  */
 public class GeoServerRESTClassTest extends GeoserverRESTTest {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GeoserverRESTTest.class);;
-
-    @Test
-    public void testGetLayerGroups() {
-        if(!enabled()){
-            return;
-        }
-        List<String> groups = reader.getLayerGroups().getNames();
-        LOGGER.info("Found " + groups.size() + " layerGroups");
-        for (String groupName : groups) {
-            RESTLayerGroup group = reader.getLayerGroup(groupName);
-            if (groups != null) {
-                assertNotNull(group.getPublishedList());
-            }
-        }
+  
+  private static final Logger LOGGER = LoggerFactory.getLogger(GeoserverRESTTest.class);;
+  
+  @Test
+  public void testGetLayerGroups() {
+    if (!enabled()) {
+      return;
     }
+    List<String> groups = reader.getLayerGroups().getNames();
+    LOGGER.info("Found " + groups.size() + " layerGroups");
+    for (String groupName : groups) {
+      RESTLayerGroup group = reader.getLayerGroup(groupName);
+      if (groups != null) {
+        assertNotNull(group.getPublishedList());
+      }
+    }
+  }
 }

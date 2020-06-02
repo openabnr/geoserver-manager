@@ -37,9 +37,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.json.JSON;
-import net.sf.json.JSONSerializer;
-
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpConnectionManager;
@@ -60,6 +57,9 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 /**
  * Low level HTTP utilities.
@@ -146,13 +146,13 @@ public class HTTPUtils {
    *
    * @return The result parsed as json.
    */
-  public static JSON getAsJSON(String url, String username, String pw) throws Exception {
+  public static JsonElement getAsJSON(String url, String username, String pw) throws Exception {
     String response = get(url, username, pw);
     return json(response);
   }
   
-  public static JSON json(String content) {
-    return JSONSerializer.toJSON(content);
+  public static JsonElement json(String content) {
+    return new JsonParser().parse(content);
   }
   
   /**

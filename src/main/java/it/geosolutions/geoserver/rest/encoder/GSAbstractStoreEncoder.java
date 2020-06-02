@@ -39,83 +39,85 @@ import org.jdom.Element;
  * @author Carlo Cancellieri - GeoSolutions
  */
 public abstract class GSAbstractStoreEncoder extends PropertyXMLEncoder {
-
-    private final GeoServerRESTPublisher.StoreType type;
-
-    protected GSAbstractStoreEncoder(GeoServerRESTPublisher.StoreType type, String storeName) {
-        super(type.getType());
-        this.type=type;
+  
+  private final GeoServerRESTPublisher.StoreType type;
+  
+  protected GSAbstractStoreEncoder(GeoServerRESTPublisher.StoreType type, String storeName) {
+    super(type.getType());
+    this.type = type;
+  }
+  
+  public StoreType getStoreType() {
+    return this.type;
+  }
+  
+  public void setType(String type) {
+    set("type", type);
+  }
+  
+  public String getType() {
+    return ElementUtils.contains(getRoot(), "type").getTextTrim();
+  }
+  
+  public void setName(String name) {
+    ensureValidName(name);
+    set("name", name);
+  }
+  
+  public String getName() {
+    Element e = ElementUtils.contains(getRoot(), "name");
+    return e != null ? e.getTextTrim() : null;
+  }
+  
+  public void setDescription(String description) {
+    set("description", description);
+  }
+  
+  public String getDescription() {
+    Element e = ElementUtils.contains(getRoot(), "description");
+    return e != null ? e.getTextTrim() : null;
+  }
+  
+  public void setEnabled(boolean enabled) {
+    set("enabled", Boolean.toString(enabled));
+  }
+  
+  public boolean getEnabled() {
+    Element e = ElementUtils.contains(getRoot(), "name");
+    if (e != null) return Boolean.parseBoolean(e.getTextTrim());
+    else return false;
+  }
+  
+  /**
+   * Check name validity.
+   * 
+   * @param name
+   *          the name
+   * @throws IllegalArgumentException
+   *           if name is null or empty
+   */
+  protected void ensureValidName(String name) {
+    if (name == null || name.isEmpty()) {
+      throw new IllegalArgumentException("Store name cannot be null or empty");
     }
-    
-    public StoreType getStoreType() {
-        return this.type;
+  }
+  
+  /**
+   * Check type validity.
+   * 
+   * @param type
+   *          the type.
+   * @throws IllegalArgumentException
+   *           if type is not {@value #TYPE}
+   */
+  protected void ensureValidType(String type) {
+    if (!type.equals(getValidType())) {
+      throw new IllegalArgumentException("The store type '" + type + "' is not valid");
     }
-    
-    public void setType(String type) {
-        set("type", type);
-    }
-
-    public String getType() {
-        return ElementUtils.contains(getRoot(), "type").getTextTrim();
-    }
-
-    public void setName(String name) {
-        ensureValidName(name);
-        set("name", name);
-    }
-
-    public String getName() {
-        Element e = ElementUtils.contains(getRoot(), "name");
-        return e!=null?e.getTextTrim():null;
-    }
-
-    public void setDescription(String description) {
-        set("description", description);
-    }
-
-    public String getDescription() {
-        Element e = ElementUtils.contains(getRoot(), "description");
-        return e!=null?e.getTextTrim():null;
-    }
-
-    public void setEnabled(boolean enabled) {
-        set("enabled", Boolean.toString(enabled));
-    }
-
-    public boolean getEnabled() {
-        Element e = ElementUtils.contains(getRoot(), "name");
-        if (e!=null)
-            return Boolean.parseBoolean(e.getTextTrim());
-        else
-            return false;
-    }
-
-    /**
-     * Check name validity.
-     * 
-     * @param name the name
-     * @throws IllegalArgumentException if name is null or empty
-     */
-    protected void ensureValidName(String name) {
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Store name cannot be null or empty");
-        }
-    }
-
-    /**
-     * Check type validity.
-     * 
-     * @param type the type.
-     * @throws IllegalArgumentException if type is not {@value #TYPE}
-     */
-    protected void ensureValidType(String type) {
-        if (!type.equals(getValidType())) {
-            throw new IllegalArgumentException("The store type '" + type + "' is not valid");
-        }
-    }
-
-    /**
-     * The type of the implementing store.
-     */
-    protected abstract String getValidType();
+  }
+  
+  /**
+   * The type of the implementing store.
+   */
+  protected abstract String getValidType();
 }

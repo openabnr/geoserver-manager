@@ -30,21 +30,21 @@ import org.slf4j.LoggerFactory;
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  */
 public class GSWorkspaceEncoderTest extends TestCase {
-
-    /**
-     * Default logger
-     */
-    protected final static Logger LOGGER = LoggerFactory.getLogger(GSWorkspaceEncoderTest.class);
-
-    @Test
-    public void testAll() {
-        final GSWorkspaceEncoder wsenc = new GSWorkspaceEncoder("WS1");
-        LOGGER.info(wsenc.toString());
-
-        wsenc.setName("test_name");
-        LOGGER.info(wsenc.toString());
-        wsenc.setName("new_name");
-        LOGGER.info(wsenc.toString());
-
-    }
+  
+  /**
+   * Default logger
+   */
+  protected final static Logger LOGGER = LoggerFactory.getLogger(GSWorkspaceEncoderTest.class);
+  
+  @Test
+  public void testAll() {
+    final GSWorkspaceEncoder wsenc = new GSWorkspaceEncoder("WS1");
+    LOGGER.info(wsenc.toString());
+    
+    wsenc.setName("test_name");
+    LOGGER.info(wsenc.toString());
+    wsenc.setName("new_name");
+    LOGGER.info(wsenc.toString());
+    
+  }
 }

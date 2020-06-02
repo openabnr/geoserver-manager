@@ -36,52 +36,50 @@ import org.jdom.Element;
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  */
 public class GSWorkspaceEncoder extends PropertyXMLEncoder {
-	public final static String WORKSPACE="workspace";
-	public final static String NAME="name";
-
-    public GSWorkspaceEncoder() {
-        super(WORKSPACE);
-    }
-
-    /**
-     * @param name the workspace name
-     */
-    public GSWorkspaceEncoder(String name) {
-    	super(WORKSPACE);
-        addName(name);
-    }
-    
-    /**
-     * Add the name to this workspace
-     * @param name
-     * @throws IllegalStateException if name is already set
-     */
-    protected void addName(final String name) {
-    	final Element el=ElementUtils.contains(getRoot(),NAME);
-    	if (el==null)
-    		add(NAME, name);
-    	else
-    		throw new IllegalStateException("Workspace name is already set: "+el.getText());
-    }
-    
-    /**
-     * add or change (if already set) the workspace name
-     * @param name
-     */
-    public void setName(final String name) {
-    	final Element el=ElementUtils.contains(getRoot(),NAME);
-    	if (el==null)
-    		add(NAME, name);
-    	else
-    		el.setText(name);
-    }
-    
-    public String getName(){
-    	final Element el=ElementUtils.contains(getRoot(),NAME);
-    	if (el!=null)
-    		return el.getTextTrim();
-    	else
-    		return null;
-    }
-
+  public final static String WORKSPACE = "workspace";
+  public final static String NAME = "name";
+  
+  public GSWorkspaceEncoder() {
+    super(WORKSPACE);
+  }
+  
+  /**
+   * @param name
+   *          the workspace name
+   */
+  public GSWorkspaceEncoder(String name) {
+    super(WORKSPACE);
+    addName(name);
+  }
+  
+  /**
+   * Add the name to this workspace
+   * 
+   * @param name
+   * @throws IllegalStateException
+   *           if name is already set
+   */
+  protected void addName(final String name) {
+    final Element el = ElementUtils.contains(getRoot(), NAME);
+    if (el == null) add(NAME, name);
+    else throw new IllegalStateException("Workspace name is already set: " + el.getText());
+  }
+  
+  /**
+   * add or change (if already set) the workspace name
+   * 
+   * @param name
+   */
+  public void setName(final String name) {
+    final Element el = ElementUtils.contains(getRoot(), NAME);
+    if (el == null) add(NAME, name);
+    else el.setText(name);
+  }
+  
+  public String getName() {
+    final Element el = ElementUtils.contains(getRoot(), NAME);
+    if (el != null) return el.getTextTrim();
+    else return null;
+  }
+  
 }

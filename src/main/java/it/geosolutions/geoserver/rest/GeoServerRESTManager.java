@@ -46,56 +46,60 @@ import java.net.URL;
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  */
 public class GeoServerRESTManager extends GeoServerRESTAbstractManager {
-
-    private final GeoServerRESTPublisher publisher;
-    private final GeoServerRESTReader reader;
-
-    private final GeoServerRESTStoreManager storeManager;
-    private final GeoServerRESTStyleManager styleManager;
+  
+  private final GeoServerRESTPublisher publisher;
+  private final GeoServerRESTReader reader;
+  
+  private final GeoServerRESTStoreManager storeManager;
+  private final GeoServerRESTStyleManager styleManager;
+  
+  private final GeoServerRESTStructuredGridCoverageReaderManager structuredGridCoverageReader;
+  
+  /**
+   * Default constructor.
+   * 
+   * Indicates connection parameters to remote GeoServer instance.
+   * 
+   * @param restURL
+   *          GeoServer REST API endpoint
+   * @param username
+   *          GeoServer REST API authorized username
+   * @param password
+   *          GeoServer REST API password for the former username
+   * @throws MalformedURLException
+   *           {@link GeoServerRESTAbstractManager#GeoServerRESTAbstractManager(URL, String, String)}
+   * @throws IllegalArgumentException
+   *           {@link GeoServerRESTAbstractManager#GeoServerRESTAbstractManager(URL, String, String)}
+   */
+  public GeoServerRESTManager(URL restURL, String username, String password) throws IllegalArgumentException {
+    super(restURL, username, password);
     
-    private final GeoServerRESTStructuredGridCoverageReaderManager structuredGridCoverageReader;
-
-    /**
-     * Default constructor.
-     * 
-     * Indicates connection parameters to remote GeoServer instance.
-     * 
-     * @param restURL GeoServer REST API endpoint
-     * @param username GeoServer REST API authorized username
-     * @param password GeoServer REST API password for the former username
-     * @throws MalformedURLException {@link GeoServerRESTAbstractManager#GeoServerRESTAbstractManager(URL, String, String)}
-     * @throws IllegalArgumentException {@link GeoServerRESTAbstractManager#GeoServerRESTAbstractManager(URL, String, String)}
-     */
-    public GeoServerRESTManager(URL restURL, String username, String password)
-            throws IllegalArgumentException {
-        super(restURL, username, password);
-
-        // Internal publisher and reader, provide simple access methods.
-        publisher = new GeoServerRESTPublisher(restURL.toString(), username, password);
-        reader = new GeoServerRESTReader(restURL, username, password);
-        structuredGridCoverageReader = new GeoServerRESTStructuredGridCoverageReaderManager(restURL, username, password);
-        storeManager = new GeoServerRESTStoreManager(restURL, gsuser, gspass);
-        styleManager = new GeoServerRESTStyleManager(restURL, gsuser, gspass);
-    }
-
-    public GeoServerRESTPublisher getPublisher() {
-        return publisher;
-    }
-
-    public GeoServerRESTReader getReader() {
-        return reader;
-    }
-
-    public GeoServerRESTStoreManager getStoreManager() {
-        return storeManager;
-    }
-
-    public GeoServerRESTStyleManager getStyleManager() {
-        return styleManager;
-    }
-
-    public GeoServerRESTStructuredGridCoverageReaderManager getStructuredGridCoverageReader() {
-        return structuredGridCoverageReader;
-    }
-
+    // Internal publisher and reader, provide simple access methods.
+    publisher = new GeoServerRESTPublisher(restURL.toString(), username, password);
+    reader = new GeoServerRESTReader(restURL, username, password);
+    structuredGridCoverageReader = new GeoServerRESTStructuredGridCoverageReaderManager(restURL, username, password);
+    storeManager = new GeoServerRESTStoreManager(restURL, gsuser, gspass);
+    styleManager = new GeoServerRESTStyleManager(restURL, gsuser, gspass);
+  }
+  
+  public GeoServerRESTPublisher getPublisher() {
+    return publisher;
+  }
+  
+  public GeoServerRESTReader getReader() {
+    return reader;
+  }
+  
+  public GeoServerRESTStoreManager getStoreManager() {
+    return storeManager;
+  }
+  
+  public GeoServerRESTStyleManager getStyleManager() {
+    return styleManager;
+  }
+  
+  public GeoServerRESTStructuredGridCoverageReaderManager getStructuredGridCoverageReader() {
+    return structuredGridCoverageReader;
+  }
+  
 }

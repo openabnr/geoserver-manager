@@ -32,69 +32,73 @@ import it.geosolutions.geoserver.rest.decoder.RESTDataStore;
  * @author Oscar Fonts
  */
 public class GSGeoPackageDatastoreEncoder extends GSAbstractDatastoreEncoder {
-
-    static final String TYPE = "GeoPackage";
-
-    static final String DEFAULT_DB_TYPE = "geopkg";
-
-    /**
-     * Create an {@value #TYPE} datastore with default connection parameters,
-     * given a store name, and a database name.
-     *
-     * @param name datastore name
-     * @param database database name
-     */
-    public GSGeoPackageDatastoreEncoder(String name, String database) {
-        super(name);
-
-        // Set mandatory parameter
-        setType(TYPE);
-        setDatabaseType(DEFAULT_DB_TYPE);
-        setDatabase(database);
+  
+  static final String TYPE = "GeoPackage";
+  
+  static final String DEFAULT_DB_TYPE = "geopkg";
+  
+  /**
+   * Create an {@value #TYPE} datastore with default connection parameters, given a store name, and a database name.
+   *
+   * @param name
+   *          datastore name
+   * @param database
+   *          database name
+   */
+  public GSGeoPackageDatastoreEncoder(String name, String database) {
+    super(name);
+    
+    // Set mandatory parameter
+    setType(TYPE);
+    setDatabaseType(DEFAULT_DB_TYPE);
+    setDatabase(database);
+  }
+  
+  /**
+   * Create an {@value #TYPE} datastore encoder from an existing store read from server.
+   *
+   * @param store
+   *          The existing store.
+   * @throws IllegalArgumentException
+   *           if store type or mandatory parameters are not valid
+   */
+  public GSGeoPackageDatastoreEncoder(RESTDataStore store) {
+    super(store);
+    
+    // Check mandatory parameter validity
+    ensureValidDatabase(store.getConnectionParameters().get("database"));
+  }
+  
+  public void setDatabase(String database) {
+    connectionParameters.set("database", database);
+  }
+  
+  public void setUser(String user) {
+    connectionParameters.set("user", user);
+  }
+  
+  public void setDatabaseType(String dbtype) {
+    connectionParameters.set("dbtype", dbtype);
+  }
+  
+  /**
+   * Check database validity.
+   *
+   * @param database
+   *          the database name
+   * @throws IllegalArgumentException
+   *           if database is null or empty
+   */
+  private static void ensureValidDatabase(String database) {
+    if (database == null || database.length() == 0) {
+      throw new IllegalArgumentException("Postgis store database cannot be null or empty");
     }
-
-    /**
-     * Create an {@value #TYPE} datastore encoder from an existing store read from server.
-     *
-     * @param store The existing store.
-     * @throws IllegalArgumentException if store type or mandatory parameters are not valid
-     */
-    public GSGeoPackageDatastoreEncoder(RESTDataStore store) {
-        super(store);
-
-        // Check mandatory parameter validity
-        ensureValidDatabase(store.getConnectionParameters().get("database"));
-    }
-
-    public void setDatabase(String database) {
-        connectionParameters.set("database", database);
-    }
-
-    public void setUser(String user) {
-        connectionParameters.set("user", user);
-    }
-
-    public void setDatabaseType(String dbtype) {
-        connectionParameters.set("dbtype", dbtype);
-    }
-
-    /**
-     * Check database validity.
-     *
-     * @param database the database name
-     * @throws IllegalArgumentException if database is null or empty
-     */
-    private static void ensureValidDatabase(String database) {
-        if (database == null || database.length() == 0) {
-            throw new IllegalArgumentException(
-                "Postgis store database cannot be null or empty");
-        }
-    }
-
-    /**
-     * @return {@value #TYPE}
-     */
-    protected String getValidType() {
-        return TYPE;
-    }
+  }
+  
+  /**
+   * @return {@value #TYPE}
+   */
+  protected String getValidType() {
+    return TYPE;
+  }
 }

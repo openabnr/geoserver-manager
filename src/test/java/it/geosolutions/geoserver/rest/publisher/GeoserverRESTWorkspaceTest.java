@@ -36,58 +36,56 @@ import static org.junit.Assert.*;
 import org.springframework.core.io.ClassPathResource;
 
 /**
- * Testcase for publishing layers on geoserver.
- * We need a running GeoServer to properly run the tests. 
- * If such geoserver instance cannot be contacted, tests will be skipped.
+ * Testcase for publishing layers on geoserver. We need a running GeoServer to properly run the tests. If such geoserver instance cannot be contacted, tests will be skipped.
  *
  * @author etj
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  */
 public class GeoserverRESTWorkspaceTest extends GeoserverRESTTest {
-
-    @Test
-    public void testWorkspaces() {
-        if (!enabled()) return;
-        deleteAll();
-
-        assertEquals(0, reader.getWorkspaces().size());
-
-        assertTrue(publisher.createWorkspace("WS1"));
-        assertTrue(publisher.createWorkspace("WS2"));
-        assertEquals(2, reader.getWorkspaces().size());
-
-        assertFalse(publisher.createWorkspace("WS2"));
-        assertEquals(2, reader.getWorkspaces().size());
-    }
+  
+  @Test
+  public void testWorkspaces() {
+    if (!enabled()) return;
+    deleteAll();
     
-    /**
-     * remove workspace and all of its contents
-     * @throws IOException
-     */
-    @Test
-    public void testWorkspaceRemoval() throws IOException {
-        if (!enabled()) return;
-        	deleteAll();
-
-        String storeName = "testRESTStoreGeotiff";
-        String layerName = "resttestdem";
-
-        assertTrue(reader.getWorkspaces().isEmpty());
-        assertTrue(publisher.createWorkspace(DEFAULT_WS));
-        // test exists
-        assertTrue(reader.existsWorkspace(DEFAULT_WS));
-
-        File geotiff = new ClassPathResource("testdata/resttestdem.tif").getFile();
-
-        // known state?
-        assertFalse("Cleanup failed", existsLayer(layerName));
-
-        // test insert
-        boolean pc = publisher.publishExternalGeoTIFF(DEFAULT_WS, storeName, geotiff, layerName, "EPSG:4326",ProjectionPolicy.REPROJECT_TO_DECLARED,"raster");
-        
-        // remove workspace and all of its contents
-        assertTrue(publisher.removeWorkspace(DEFAULT_WS,true));
-        // Test not exists
-        assertFalse(reader.existsWorkspace(DEFAULT_WS));
-    }
+    assertEquals(0, reader.getWorkspaces().size());
+    
+    assertTrue(publisher.createWorkspace("WS1"));
+    assertTrue(publisher.createWorkspace("WS2"));
+    assertEquals(2, reader.getWorkspaces().size());
+    
+    assertFalse(publisher.createWorkspace("WS2"));
+    assertEquals(2, reader.getWorkspaces().size());
+  }
+  
+  /**
+   * remove workspace and all of its contents
+   * 
+   * @throws IOException
+   */
+  @Test
+  public void testWorkspaceRemoval() throws IOException {
+    if (!enabled()) return;
+    deleteAll();
+    
+    String storeName = "testRESTStoreGeotiff";
+    String layerName = "resttestdem";
+    
+    assertTrue(reader.getWorkspaces().isEmpty());
+    assertTrue(publisher.createWorkspace(DEFAULT_WS));
+    // test exists
+    assertTrue(reader.existsWorkspace(DEFAULT_WS));
+    
+    File geotiff = new ClassPathResource("testdata/resttestdem.tif").getFile();
+    
+    // known state?
+    assertFalse("Cleanup failed", existsLayer(layerName));
+    
+    publisher.publishExternalGeoTIFF(DEFAULT_WS, storeName, geotiff, layerName, "EPSG:4326", ProjectionPolicy.REPROJECT_TO_DECLARED, "raster");
+    
+    // remove workspace and all of its contents
+    assertTrue(publisher.removeWorkspace(DEFAULT_WS, true));
+    // Test not exists
+    assertFalse(reader.existsWorkspace(DEFAULT_WS));
+  }
 }

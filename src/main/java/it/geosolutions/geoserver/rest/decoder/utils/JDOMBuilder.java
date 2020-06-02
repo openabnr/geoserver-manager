@@ -40,24 +40,23 @@ import org.slf4j.LoggerFactory;
  * @author ETj (etj at geo-solutions.it)
  */
 public class JDOMBuilder {
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(JDOMBuilder.class);
-
-    public static Element buildElement(String response) {
-        if(response == null)
-            return null;
-
-        try{
-			SAXBuilder builder = new SAXBuilder();
-			Document doc = builder.build(new StringReader(response));
-			return  doc.getRootElement();
-		} catch (JDOMException ex) {
-			LOGGER.warn("Ex parsing response", ex);
-		} catch (IOException ex) {
-			LOGGER.warn("Ex loading response", ex);
-		}
-
-		return null;
+  
+  private final static Logger LOGGER = LoggerFactory.getLogger(JDOMBuilder.class);
+  
+  public static Element buildElement(String response) {
+    if (response == null) return null;
+    
+    try {
+      SAXBuilder builder = new SAXBuilder();
+      Document doc = builder.build(new StringReader(response));
+      return doc.getRootElement();
+    } catch (JDOMException ex) {
+      LOGGER.warn("Ex parsing response", ex);
+    } catch (IOException ex) {
+      LOGGER.warn("Ex loading response", ex);
     }
-
+    
+    return null;
+  }
+  
 }

@@ -35,24 +35,24 @@ import org.jdom.Element;
  * @author ETj (etj at geo-solutions.it)
  */
 public abstract class JDOMListIterator<ELEM> implements Iterator<ELEM> {
-
-    private final Iterator<Element> iter;
-
-    public JDOMListIterator(List<Element> orig) {
-        iter = orig.iterator();
-    }
-
-    public boolean hasNext() {
-        return iter.hasNext();
-    }
-
-    public ELEM next() {
-        return transform(iter.next());
-    }
-
-    public abstract ELEM transform(Element listItem);
-
-    public void remove() {
-        throw new UnsupportedOperationException("Not supported.");
-    }
+  
+  private final Iterator<Element> iter;
+  
+  public JDOMListIterator(List<Element> orig) {
+    iter = orig.iterator();
+  }
+  
+  public boolean hasNext() {
+    return iter.hasNext();
+  }
+  
+  public ELEM next() {
+    return transform(iter.next());
+  }
+  
+  public abstract ELEM transform(Element listItem);
+  
+  public void remove() {
+    throw new UnsupportedOperationException("Not supported.");
+  }
 }

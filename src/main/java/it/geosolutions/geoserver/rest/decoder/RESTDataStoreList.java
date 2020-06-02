@@ -36,13 +36,13 @@ import org.jdom.Element;
  * @author ETj (etj at geo-solutions.it)
  */
 public class RESTDataStoreList extends RESTAbstractList<NameLinkElem> {
-
-    public static RESTDataStoreList build(String response) {
-        Element elem = JDOMBuilder.buildElement(response);
-        return elem == null? null : new RESTDataStoreList(elem);
-	}
-
-    protected RESTDataStoreList(Element list) {
-        super(list);
-    }
+  
+  public static RESTDataStoreList build(String response) {
+    Element elem = JDOMBuilder.buildElement(response);
+    return elem == null ? null : new RESTDataStoreList(elem);
+  }
+  
+  protected RESTDataStoreList(Element list) {
+    super(list);
+  }
 }

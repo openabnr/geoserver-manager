@@ -25,7 +25,6 @@
 
 package it.geosolutions.geoserver.rest.publisher;
 
-
 import it.geosolutions.geoserver.rest.GeoserverRESTTest;
 import it.geosolutions.geoserver.rest.datastore.StoreIntegrationTest;
 import it.geosolutions.geoserver.rest.encoder.GSAbstractStoreEncoder;
@@ -38,12 +37,11 @@ import java.net.MalformedURLException;
  * <P>
  * Since these tests require a running postgis instance, this is more like integration tests.<br/>
  * You may skip them by defining<tt> <pre>
- *        -DpgIgnore=true </pre></tt>
- * When <tt>pgIgnore</tt> is defined that way, failing tests will not break
- * the build: they will be logged as errors instead.
+ *        -DpgIgnore=true </pre></tt> When <tt>pgIgnore</tt> is defined that way, failing tests will not break the build: they will be logged as errors instead.
  *
  * <P>
- * The target postgis instance can be customized by defining the following env vars: <ul>
+ * The target postgis instance can be customized by defining the following env vars:
+ * <ul>
  * <LI><TT>pgHost</TT> (default <TT>localhost</TT>)</LI>
  * <LI><TT>pgPort</TT> (default: <TT>5432</TT>)</LI>
  * <LI><TT>pgDatabase</TT> (default: <TT>test</TT>)</LI>
@@ -59,44 +57,43 @@ import java.net.MalformedURLException;
  * @see GeoserverRESTTest
  */
 public class GeoserverRESTPostgisDatastoreTest extends StoreIntegrationTest {
-
-    public GeoserverRESTPostgisDatastoreTest()
-            throws IllegalArgumentException, MalformedURLException {
-        super(System.getProperty("pgIgnore", "true").equalsIgnoreCase("true"));
-    }
-
-        
-    @Override
-    public GSAbstractStoreEncoder getStoreEncoderTest(){
-        boolean exposePrimaryKeys = true;
-        boolean validateConnections = false;
-        String primaryKeyMetadataTable = "test";
-
-        String datastoreName = "resttestpostgis";
-        String description = "description";
-        String dsNamespace = "http://www.geo-solutions.it";
-        
-        GSPostGISDatastoreEncoder datastoreEncoder = new GSPostGISDatastoreEncoder(datastoreName);
-        datastoreEncoder.setDescription(description);
-        datastoreEncoder.setNamespace(dsNamespace);
-        
-        String pgHost      = System.getProperty("pgHost", "localhost");
-        int pgPort      = Integer.parseInt(System.getProperty("pgPort", "5432"));
-        String pgDatabase  = System.getProperty("pgDatabase", "test");
-        String pgSchema    = System.getProperty("pgSchema", "public");
-        String pgUser      = System.getProperty("pgUser", "utest");
-        String pgPassword  = System.getProperty("pgPassword", "ptest");
-        
-        datastoreEncoder.setHost(pgHost);
-        datastoreEncoder.setPort(pgPort);
-        datastoreEncoder.setDatabase(pgDatabase);
-        datastoreEncoder.setSchema(pgSchema);
-        datastoreEncoder.setUser(pgUser);
-        datastoreEncoder.setPassword(pgPassword);
-        datastoreEncoder.setExposePrimaryKeys(exposePrimaryKeys);
-        datastoreEncoder.setValidateConnections(validateConnections);
-        datastoreEncoder.setPrimaryKeyMetadataTable(primaryKeyMetadataTable);
-        return datastoreEncoder;
-    }
+  
+  public GeoserverRESTPostgisDatastoreTest() throws IllegalArgumentException, MalformedURLException {
+    super(System.getProperty("pgIgnore", "true").equalsIgnoreCase("true"));
+  }
+  
+  @Override
+  public GSAbstractStoreEncoder getStoreEncoderTest() {
+    boolean exposePrimaryKeys = true;
+    boolean validateConnections = false;
+    String primaryKeyMetadataTable = "test";
     
+    String datastoreName = "resttestpostgis";
+    String databaseName = "postgres";
+    String description = "description";
+    String dsNamespace = "http://www.geo-solutions.it";
+    
+    GSPostGISDatastoreEncoder datastoreEncoder = new GSPostGISDatastoreEncoder(datastoreName, databaseName);
+    datastoreEncoder.setDescription(description);
+    datastoreEncoder.setNamespace(dsNamespace);
+    
+    String pgHost = System.getProperty("pgHost", "localhost");
+    int pgPort = Integer.parseInt(System.getProperty("pgPort", "5432"));
+    String pgDatabase = System.getProperty("pgDatabase", "test");
+    String pgSchema = System.getProperty("pgSchema", "public");
+    String pgUser = System.getProperty("pgUser", "utest");
+    String pgPassword = System.getProperty("pgPassword", "ptest");
+    
+    datastoreEncoder.setHost(pgHost);
+    datastoreEncoder.setPort(pgPort);
+    datastoreEncoder.setDatabase(pgDatabase);
+    datastoreEncoder.setSchema(pgSchema);
+    datastoreEncoder.setUser(pgUser);
+    datastoreEncoder.setPassword(pgPassword);
+    datastoreEncoder.setExposePrimaryKeys(exposePrimaryKeys);
+    datastoreEncoder.setValidateConnections(validateConnections);
+    datastoreEncoder.setPrimaryKeyMetadataTable(primaryKeyMetadataTable);
+    return datastoreEncoder;
+  }
+  
 }

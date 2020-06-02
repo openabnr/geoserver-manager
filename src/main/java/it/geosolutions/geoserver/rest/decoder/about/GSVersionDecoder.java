@@ -41,161 +41,147 @@ import org.jdom.Element;
  * 
  */
 public class GSVersionDecoder extends XmlElement {
-    public final static String ABOUT = "about";
-
-    private GSAboutResource geoserver;
-
-    public class GSAboutResource extends XmlElement {
-        public final static String RESOURCE = "resource";
-
-        public final static String NAME = "name";
-
-        public final static String VERSION = "Version";
-
-        private Element version;
-
-        public GSAboutResource() {
-            create();
-        }
-        
-        private void create(){
-            setRoot(RESOURCE);
-            version = new Element(VERSION);
-            addContent(version);
-        }
-
-        public void setName(String name) {
-            final Attribute _name = this.getRoot().getAttribute(GSAboutResource.NAME);
-            if (name!=null)
-                _name.setValue(name);
-            else
-                this.getRoot().setAttribute(GSAboutResource.NAME, name);
-            
-        }
-        
-        public String getName() {
-            final Attribute name = this.getRoot().getAttribute(GSAboutResource.NAME);
-            if (name!=null)
-                return name.getValue();
-            else
-                return null;
-        }
-
-        public GSAboutResource(Element el) {
-            super();
-            if (el!=null){
-                setRoot(el);
-                version = ElementUtils.contains(el, GSAboutResource.VERSION);
-            } else {
-                create();
-                setVersion(GSVersionDecoder.VERSION.UNRECOGNIZED.toString());
-            }
-        }
-        
-        public void setVersion(String v){
-            version.setText(v);
-        }
+  public final static String ABOUT = "about";
+  
+  private GSAboutResource geoserver;
+  
+  public class GSAboutResource extends XmlElement {
+    public final static String RESOURCE = "resource";
+    
+    public final static String NAME = "name";
+    
+    public final static String VERSION = "Version";
+    
+    private Element version;
+    
+    public GSAboutResource() {
+      create();
     }
     
-
-    /**
-     * Load the string representation into this encoder
-     * 
-     * @param document
-     */
-    public GSVersionDecoder(String document) {
-        Element root=JDOMBuilder.buildElement(document);
-        if (root!=null){
-            setRoot(root);
-            geoserver = new GSAboutResource(ElementUtils.contains(this.getRoot(),
-                    GSAboutResource.RESOURCE));
-        }else {
-            create();
-        }
+    private void create() {
+      setRoot(RESOURCE);
+      version = new Element(VERSION);
+      addContent(version);
     }
-
-    public GSVersionDecoder() {
+    
+    public void setName(String name) {
+      final Attribute _name = this.getRoot().getAttribute(GSAboutResource.NAME);
+      if (name != null) _name.setValue(name);
+      else this.getRoot().setAttribute(GSAboutResource.NAME, name);
+      
+    }
+    
+    public String getName() {
+      final Attribute name = this.getRoot().getAttribute(GSAboutResource.NAME);
+      if (name != null) return name.getValue();
+      else return null;
+    }
+    
+    public GSAboutResource(Element el) {
+      super();
+      if (el != null) {
+        setRoot(el);
+        version = ElementUtils.contains(el, GSAboutResource.VERSION);
+      } else {
         create();
+        setVersion(GSVersionDecoder.VERSION.UNRECOGNIZED.toString());
+      }
     }
     
-    private void create(){
-        setRoot("about");
-        geoserver = new GSAboutResource();
-        addContent(geoserver.getRoot());
+    public void setVersion(String v) {
+      version.setText(v);
+    }
+  }
+  
+  /**
+   * Load the string representation into this encoder
+   * 
+   * @param document
+   */
+  public GSVersionDecoder(String document) {
+    Element root = JDOMBuilder.buildElement(document);
+    if (root != null) {
+      setRoot(root);
+      geoserver = new GSAboutResource(ElementUtils.contains(this.getRoot(), GSAboutResource.RESOURCE));
+    } else {
+      create();
+    }
+  }
+  
+  public GSVersionDecoder() {
+    create();
+  }
+  
+  private void create() {
+    setRoot("about");
+    geoserver = new GSAboutResource();
+    addContent(geoserver.getRoot());
+  }
+  
+  public GSAboutResource getGeoServer() {
+    return geoserver;
+  }
+  
+  public VERSION getVersion() {
+    Element e = ElementUtils.contains(geoserver.version, GSAboutResource.VERSION);
+    return VERSION.getVersion(e.getTextTrim());
+  }
+  
+  /**
+   * @see {@link Enum#compareTo(Enum)}
+   * @param v
+   * @return
+   */
+  public int compareTo(VERSION v) {
+    return getVersion().compareTo(v);
+  }
+  
+  public static GSVersionDecoder build(String response) {
+    return new GSVersionDecoder(response);
+  }
+  
+  public enum VERSION {
+    v22(22, "2\\.2([^0-9]|$).*"), v23(23, "2\\.3([^0-9]|$).*"), v24(24, "2\\.4([^0-9]|$).*"), v25(25, "2\\.5([^0-9]|$).*"), v26(26, "2\\.6([^0-9]|$).*"), v27(27, "2\\.7([^0-9]|$).*"), v28(28, "2\\.8([^0-9]|$).*"), ABOVE(9999, "2\\..+"), UNRECOGNIZED(-1, null);
+    
+    final private int version;
+    final private String pattern;
+    
+    private VERSION(int val, String pattern) {
+      version = val;
+      this.pattern = pattern;
     }
     
-    public GSAboutResource getGeoServer(){
-        return geoserver;
-    }
-
-    public VERSION getVersion() {
-        Element e = ElementUtils.contains(geoserver.version, GSAboutResource.VERSION);
-        return VERSION.getVersion(e.getTextTrim());
+    public int getVersion() {
+      return version;
     }
     
-    /**
-     * @see {@link Enum#compareTo(Enum)}
-     * @param v
-     * @return
-     */
-    public int compareTo(VERSION v) {
-        return getVersion().compareTo(v);
+    public String toString() {
+      return Integer.toString(version);
     }
-
-    public static GSVersionDecoder build(String response) {
-        return new GSVersionDecoder(response);
+    
+    public static VERSION getVersion(String v) {
+      if (v == null) {
+        return UNRECOGNIZED;
+      }
+      
+      for (VERSION version : VERSION.values()) {
+        if (version.pattern != null && v.matches(version.pattern)) {
+          return version;
+        }
+      }
+      
+      return UNRECOGNIZED;
     }
-
-    public enum VERSION {
-        v22(22, "2\\.2([^0-9]|$).*"),
-        v23(23, "2\\.3([^0-9]|$).*"),
-        v24(24, "2\\.4([^0-9]|$).*"),
-        v25(25, "2\\.5([^0-9]|$).*"),
-        v26(26, "2\\.6([^0-9]|$).*"),
-        v27(27, "2\\.7([^0-9]|$).*"),
-        v28(28, "2\\.8([^0-9]|$).*"),
-        ABOVE(9999, "2\\..+"),
-        UNRECOGNIZED(-1, null);
-
-        final private int version;
-        final private String pattern;
-
-        private VERSION(int val, String pattern) {
-            version = val;
-            this.pattern = pattern;
-        }
-
-        public int getVersion() {
-            return version;
-        }
-        
-        public String toString(){
-            return Integer.toString(version);
-        }
-
-        public static VERSION getVersion(String v) {
-            if (v == null) {
-                return UNRECOGNIZED;
-            }
-            
-            for (VERSION version : VERSION.values()) {
-                if(version.pattern != null && v.matches(version.pattern)) {
-                    return version;
-                }
-            }
-
-            return UNRECOGNIZED;
-        }
-        
-        public static String print(){
-
-            StringBuilder sb = new StringBuilder("[");
-            for (VERSION v : VERSION.values()) {
-                sb.append(v.toString()).append(' ');
-            }
-            sb.append("]");
-            return sb.toString();
-        }
+    
+    public static String print() {
+      
+      StringBuilder sb = new StringBuilder("[");
+      for (VERSION v : VERSION.values()) {
+        sb.append(v.toString()).append(' ');
+      }
+      sb.append("]");
+      return sb.toString();
     }
-
+  }
+  
 }

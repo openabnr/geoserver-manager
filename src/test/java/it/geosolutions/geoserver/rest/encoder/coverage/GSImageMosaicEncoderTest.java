@@ -31,39 +31,39 @@ import org.springframework.util.Assert;
  * @author Carlo Cancellieri - carlo.cancellieri@geo-solutions.it
  */
 public class GSImageMosaicEncoderTest extends TestCase {
-
-    public GSImageMosaicEncoderTest() {
-    }
-
-    /**
-     * Default logger
-     */
-    protected final static Logger LOGGER = LoggerFactory.getLogger(GSImageMosaicEncoderTest.class);
-
-    /**
-     * TODO implement this test
-     */
-    @Test
-    public void testAll() {
-        final GSImageMosaicEncoder encoder = new GSImageMosaicEncoder();
-
-        Assert.isNull(encoder.getUseJaiImageRead());
-
-        encoder.setAllowMultithreading(true);
-
-        Assert.isTrue(encoder.getAllowMultithreading());
-
-        encoder.setAllowMultithreading(false);
-
-        Assert.isTrue(!encoder.getAllowMultithreading());
-
-        encoder.setSUGGESTED_TILE_SIZE("512,512");
-
-        Assert.isTrue(encoder.getSuggestedTileSize().equalsIgnoreCase("512,512"));
-
-        LOGGER.info(encoder.toString());
-
-        encoder.addSUGGESTED_TILE_SIZE("512,512");
-
-    }
+  
+  public GSImageMosaicEncoderTest() {
+  }
+  
+  /**
+   * Default logger
+   */
+  protected final static Logger LOGGER = LoggerFactory.getLogger(GSImageMosaicEncoderTest.class);
+  
+  /**
+   * TODO implement this test
+   */
+  @Test
+  public void testAll() {
+    final GSImageMosaicEncoder encoder = new GSImageMosaicEncoder();
+    
+    Assert.isNull(encoder.getUseJaiImageRead());
+    
+    encoder.setAllowMultithreading(true);
+    
+    Assert.isTrue(encoder.getAllowMultithreading());
+    
+    encoder.setAllowMultithreading(false);
+    
+    Assert.isTrue(!encoder.getAllowMultithreading());
+    
+    encoder.setSUGGESTED_TILE_SIZE("512,512");
+    
+    Assert.isTrue(encoder.getSuggestedTileSize().equalsIgnoreCase("512,512"));
+    
+    LOGGER.info(encoder.toString());
+    
+    encoder.addSUGGESTED_TILE_SIZE("512,512");
+    
+  }
 }

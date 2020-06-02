@@ -33,6 +33,7 @@ import org.jdom.Element;
  * Parse <TT>CoverageStore</TT>s returned as XML REST objects.
  * <P>
  * This is the XML document returned by GeoServer when requesting a CoverageStore:
+ * 
  * <PRE>
  * {@code 
  * <coverageStore>
@@ -53,57 +54,47 @@ import org.jdom.Element;
  * }
  * </PRE>
  *
- * <I>Note: the whole XML fragment is stored in memory. At the moment, there are
- * methods to retrieve only the more useful data.
+ * <I>Note: the whole XML fragment is stored in memory. At the moment, there are methods to retrieve only the more useful data.
  * 
  * @author etj
  */
 public class RESTCoverageStore {
-	private final Element cs;
-
-
-	public RESTCoverageStore(Element cs) {
-		this.cs = cs;
-	}
-
-    public static RESTCoverageStore build(String response) {
-        if(response == null)
-            return null;
-        if(response.isEmpty())
-        	return new RESTCoverageStore(new Element("coverageStore")); // TODO check how to response
-        
-        Element pb = JDOMBuilder.buildElement(response);
-        if(pb != null)
-            return new RESTCoverageStore(pb);
-        else
-            return null;
-    }
-
-    public String getName() {
-        return cs.getChildText("name");
-    }
-
-    public String getWorkspaceName() {
-        return cs.getChild("workspace").getChildText("name");
-    }
-
-    public String getURL() {
-        return cs.getChildText("url");
-    }
+  private final Element cs;
+  
+  public RESTCoverageStore(Element cs) {
+    this.cs = cs;
+  }
+  
+  public static RESTCoverageStore build(String response) {
+    if (response == null) return null;
+    if (response.isEmpty()) return new RESTCoverageStore(new Element("coverageStore")); // TODO check how to response
     
-    public String getType() {
-        return cs.getChildText("type");
-    }
-
-    public String toString() {
-        StringBuilder sb = new StringBuilder(getClass().getSimpleName())
-                .append('[');
-        if(cs == null)
-            sb.append("null");
-        else
-            sb.append("name:").append(getName())
-                .append(" wsname:").append(getWorkspaceName());
-
-        return sb.toString();
-    }
+    Element pb = JDOMBuilder.buildElement(response);
+    if (pb != null) return new RESTCoverageStore(pb);
+    else return null;
+  }
+  
+  public String getName() {
+    return cs.getChildText("name");
+  }
+  
+  public String getWorkspaceName() {
+    return cs.getChild("workspace").getChildText("name");
+  }
+  
+  public String getURL() {
+    return cs.getChildText("url");
+  }
+  
+  public String getType() {
+    return cs.getChildText("type");
+  }
+  
+  public String toString() {
+    StringBuilder sb = new StringBuilder(getClass().getSimpleName()).append('[');
+    if (cs == null) sb.append("null");
+    else sb.append("name:").append(getName()).append(" wsname:").append(getWorkspaceName());
+    
+    return sb.toString();
+  }
 }

@@ -38,84 +38,86 @@ import org.jdom.Element;
 /**
  * Parses list of summary data.
  *
- * <P>This is the XML REST representation:
+ * <P>
+ * This is the XML REST representation:
+ * 
  * <PRE>
-  {@code
-<ELEMENTs>
-      <ELEMENT>
-        <name>elem1</name>
-        <atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="alternate" href="url1" type="application/xml"/>
-      </ELEMENT>
-      <ELEMENT>
-        <name>elem2</name>
-        <atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="alternate" href="url2" type="application/xml"/>
-      </ELEMENT>
-</ELEMENTs>
-}</PRE>
+ *   {@code
+ * <ELEMENTs>
+ *       <ELEMENT>
+ *         <name>elem1</name>
+ *         <atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="alternate" href="url1" type="application/xml"/>
+ *       </ELEMENT>
+ *       <ELEMENT>
+ *         <name>elem2</name>
+ *         <atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="alternate" href="url2" type="application/xml"/>
+ *       </ELEMENT>
+ * </ELEMENTs>
+ * }
+ * </PRE>
  *
  * @author ETj (etj at geo-solutions.it)
  */
 public class RESTAbstractList<ELEM extends NameLinkElem> implements Iterable<ELEM> {
-
-    protected final List<Element> elementList;
-
-    protected RESTAbstractList(Element list) {
-        List<Element> tempList = new ArrayList<Element>();
-        String baseName = null;
-
-        for (Element listItem : (List<Element>) list.getChildren()) {
-            if(baseName == null)
-                baseName = listItem.getName();
-            else
-                if(! baseName.equals(listItem.getName())) {
-                    throw new RuntimeException("List elements mismatching (" + baseName+","+listItem.getName()+")");
-                }
-
-            tempList.add(listItem);
-        }
-
-        elementList = Collections.unmodifiableList(tempList);
-    }
-
-    public int size() {
-        return elementList.size();
-    }
-
-    public boolean isEmpty() {
-        return elementList.isEmpty();
-    }
-
-    public ELEM get(int index) {
-        return createElement(elementList.get(index));
-    }
-
-    public Iterator<ELEM> iterator() {
-        return new RESTAbstractListIterator(elementList);
-    }
-
-    public List<String> getNames() {
-        List<String> names = new ArrayList<String>(elementList.size());
-        for (ELEM elem: this) {
-            names.add(elem.getName());
-        }
-        return names;
-    }
-
-
-    private class RESTAbstractListIterator extends JDOMListIterator<ELEM> {
-
-        public RESTAbstractListIterator(List<Element> orig) {
-            super(orig);
-        }
-
-        @Override
-        public ELEM transform(Element listItem) {
-            return createElement(listItem);
-        }
+  
+  protected final List<Element> elementList;
+  
+  @SuppressWarnings("unchecked")
+  protected RESTAbstractList(Element list) {
+    List<Element> tempList = new ArrayList<Element>();
+    String baseName = null;
+    
+    for (Element listItem : (List<Element>) list.getChildren()) {
+      if (baseName == null) baseName = listItem.getName();
+      else if (!baseName.equals(listItem.getName())) {
+        throw new RuntimeException("List elements mismatching (" + baseName + "," + listItem.getName() + ")");
+      }
+      
+      tempList.add(listItem);
     }
     
-    protected ELEM createElement(Element el) {
-        return (ELEM)new NameLinkElem(el);
+    elementList = Collections.unmodifiableList(tempList);
+  }
+  
+  public int size() {
+    return elementList.size();
+  }
+  
+  public boolean isEmpty() {
+    return elementList.isEmpty();
+  }
+  
+  public ELEM get(int index) {
+    return createElement(elementList.get(index));
+  }
+  
+  public Iterator<ELEM> iterator() {
+    return new RESTAbstractListIterator(elementList);
+  }
+  
+  public List<String> getNames() {
+    List<String> names = new ArrayList<String>(elementList.size());
+    for (ELEM elem : this) {
+      names.add(elem.getName());
     }
-
+    return names;
+  }
+  
+  private class RESTAbstractListIterator extends JDOMListIterator<ELEM> {
+    
+    public RESTAbstractListIterator(List<Element> orig) {
+      super(orig);
+    }
+    
+    @Override
+    public ELEM transform(Element listItem) {
+      return createElement(listItem);
+    }
+  }
+  
+  @SuppressWarnings("unchecked")
+  protected ELEM createElement(Element el) {
+    return (ELEM) new NameLinkElem(el);
+  }
+  
 }

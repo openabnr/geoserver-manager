@@ -36,94 +36,92 @@ import java.util.List;
 import org.jdom.Element;
 
 /**
- * Parses list of summary data about Workspaces.
- * <BR>Single items are handled by {@link RESTShortWorkspace}.
-
+ * Parses list of summary data about Workspaces. <BR>
+ * Single items are handled by {@link RESTShortWorkspace}.
+ * 
  * @author ETj (etj at geo-solutions.it)
  */
 public class RESTWorkspaceList implements Iterable<RESTWorkspaceList.RESTShortWorkspace> {
-
-    private final List<Element> wsList;
-
-    public static RESTWorkspaceList build(String response) {
-        if(response == null)
-            return null;
-
-        Element elem = JDOMBuilder.buildElement(response);
-        if(elem != null)
-            return new RESTWorkspaceList(elem);
-        else
-            return null;
-	}
-
-    protected RESTWorkspaceList(Element wslistroot) {
-        List<Element> tmpList = new ArrayList<Element>();
-        for (Element wselem : (List<Element>) wslistroot.getChildren("workspace")) {
-            tmpList.add(wselem);
-        }
-
-        wsList = Collections.unmodifiableList(tmpList);
+  
+  private final List<Element> wsList;
+  
+  public static RESTWorkspaceList build(String response) {
+    if (response == null) return null;
+    
+    Element elem = JDOMBuilder.buildElement(response);
+    if (elem != null) return new RESTWorkspaceList(elem);
+    else return null;
+  }
+  
+  @SuppressWarnings("unchecked")
+  protected RESTWorkspaceList(Element wslistroot) {
+    List<Element> tmpList = new ArrayList<Element>();
+    for (Element wselem : (List<Element>) wslistroot.getChildren("workspace")) {
+      tmpList.add(wselem);
     }
-
-    public int size() {
-        return wsList.size();
+    
+    wsList = Collections.unmodifiableList(tmpList);
+  }
+  
+  public int size() {
+    return wsList.size();
+  }
+  
+  public boolean isEmpty() {
+    return wsList.isEmpty();
+  }
+  
+  public RESTShortWorkspace get(int index) {
+    return new RESTShortWorkspace(wsList.get(index));
+  }
+  
+  public Iterator<RESTShortWorkspace> iterator() {
+    return new RESTWSListIterator(wsList);
+  }
+  
+  private static class RESTWSListIterator implements Iterator<RESTShortWorkspace> {
+    
+    private final Iterator<Element> iter;
+    
+    public RESTWSListIterator(List<Element> orig) {
+      iter = orig.iterator();
     }
-
-    public boolean isEmpty() {
-        return wsList.isEmpty();
+    
+    public boolean hasNext() {
+      return iter.hasNext();
     }
-
-    public RESTShortWorkspace get(int index) {
-        return new RESTShortWorkspace(wsList.get(index));
+    
+    public RESTShortWorkspace next() {
+      return new RESTShortWorkspace(iter.next());
     }
-
-    public Iterator<RESTShortWorkspace> iterator() {
-        return new RESTWSListIterator(wsList);
+    
+    public void remove() {
+      throw new UnsupportedOperationException("Not supported.");
     }
-
-
-    private static class RESTWSListIterator implements Iterator<RESTShortWorkspace> {
-
-        private final Iterator<Element> iter;
-
-        public RESTWSListIterator(List<Element> orig) {
-            iter = orig.iterator();
-        }        
-
-        public boolean hasNext() {
-            return iter.hasNext();
-        }
-
-        public RESTShortWorkspace next() {
-            return new RESTShortWorkspace(iter.next());
-        }
-
-        public void remove() {
-            throw new UnsupportedOperationException("Not supported.");
-        }
+  }
+  
+  /**
+   * Workspace summary info. <BR>
+   * This is an XML fragment:
+   * 
+   * <PRE>
+   * {@code
+   *   <workspace>
+   *      <name>it.geosolutions</name>
+   *      <atom:link xmlns:atom="http://www.w3.org/2005/Atom"
+   *          rel="alternate"
+   *          href="http://localhost:8080/geoserver/rest/workspaces/it.geosolutions.xml"
+   *          type="application/xml"/>
+   *  </workspace>
+   * }
+   * </PRE>
+   */
+  
+  public static class RESTShortWorkspace extends NameLinkElem {
+    
+    public RESTShortWorkspace(Element elem) {
+      super(elem);
     }
-
-    /**
-     * Workspace summary info.
-     * <BR>This is an XML fragment:
-     * <PRE>
-     * {@code
-     *   <workspace>
-     *      <name>it.geosolutions</name>
-     *      <atom:link xmlns:atom="http://www.w3.org/2005/Atom"
-     *          rel="alternate"
-     *          href="http://localhost:8080/geoserver/rest/workspaces/it.geosolutions.xml"
-     *          type="application/xml"/>
-     *  </workspace>
-     * }
-     * </PRE>
-     */
-
-    public static class RESTShortWorkspace extends NameLinkElem {
-
-        public RESTShortWorkspace(Element elem) {
-            super(elem);
-        }
-    }
-
+  }
+  
 }

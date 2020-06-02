@@ -27,10 +27,9 @@ package it.geosolutions.geoserver.rest.encoder.metadata.virtualtable;
 /**
  * Enumeration of Virtual Table geometry members
  * 
- * @author Emmanuel Blondel - emmanuel.blondel1@gmail.com |
- *         emmanuel.blondel@fao.org
+ * @author Emmanuel Blondel - emmanuel.blondel1@gmail.com | emmanuel.blondel@fao.org
  * 
  */
 public enum VTGeometry {
-	name, type, srid
+  name, type, srid
 }

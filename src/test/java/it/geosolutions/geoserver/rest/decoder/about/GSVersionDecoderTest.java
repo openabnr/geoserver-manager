@@ -33,26 +33,26 @@ import static org.junit.Assert.*;
  * @author etj <etj at geo-solutions dot it>
  */
 public class GSVersionDecoderTest {
-
-    @Test
-    public void testGetGeoServer() {
-
-        assertEquals(GSVersionDecoder.VERSION.v22, GSVersionDecoder.VERSION.getVersion("2.2"));
-        assertEquals(GSVersionDecoder.VERSION.v22, GSVersionDecoder.VERSION.getVersion("2.2-SNAPSHOT"));
-
-        assertEquals(GSVersionDecoder.VERSION.v26, GSVersionDecoder.VERSION.getVersion("2.6"));
-        assertEquals(GSVersionDecoder.VERSION.v26, GSVersionDecoder.VERSION.getVersion("2.6-SNAPSHOT"));
-        assertEquals(GSVersionDecoder.VERSION.v26, GSVersionDecoder.VERSION.getVersion("2.6-ENTERPRISE"));
-        assertEquals(GSVersionDecoder.VERSION.v26, GSVersionDecoder.VERSION.getVersion("2.6-ENTERPRISE-SNAPSHOT"));
-
-        assertEquals(GSVersionDecoder.VERSION.ABOVE, GSVersionDecoder.VERSION.getVersion("2.21"));
-        assertEquals(GSVersionDecoder.VERSION.ABOVE, GSVersionDecoder.VERSION.getVersion("2.21-SNAPSHOT"));
-        assertEquals(GSVersionDecoder.VERSION.ABOVE, GSVersionDecoder.VERSION.getVersion("2.42"));
-        assertEquals(GSVersionDecoder.VERSION.ABOVE, GSVersionDecoder.VERSION.getVersion("2.42-SNAPSHOT"));
-
-        assertEquals(GSVersionDecoder.VERSION.UNRECOGNIZED, GSVersionDecoder.VERSION.getVersion("3.0"));
-        assertEquals(GSVersionDecoder.VERSION.UNRECOGNIZED, GSVersionDecoder.VERSION.getVersion("anystring"));
-        assertEquals(GSVersionDecoder.VERSION.UNRECOGNIZED, GSVersionDecoder.VERSION.getVersion(null));
-    }
-
+  
+  @Test
+  public void testGetGeoServer() {
+    
+    assertEquals(GSVersionDecoder.VERSION.v22, GSVersionDecoder.VERSION.getVersion("2.2"));
+    assertEquals(GSVersionDecoder.VERSION.v22, GSVersionDecoder.VERSION.getVersion("2.2-SNAPSHOT"));
+    
+    assertEquals(GSVersionDecoder.VERSION.v26, GSVersionDecoder.VERSION.getVersion("2.6"));
+    assertEquals(GSVersionDecoder.VERSION.v26, GSVersionDecoder.VERSION.getVersion("2.6-SNAPSHOT"));
+    assertEquals(GSVersionDecoder.VERSION.v26, GSVersionDecoder.VERSION.getVersion("2.6-ENTERPRISE"));
+    assertEquals(GSVersionDecoder.VERSION.v26, GSVersionDecoder.VERSION.getVersion("2.6-ENTERPRISE-SNAPSHOT"));
+    
+    assertEquals(GSVersionDecoder.VERSION.ABOVE, GSVersionDecoder.VERSION.getVersion("2.21"));
+    assertEquals(GSVersionDecoder.VERSION.ABOVE, GSVersionDecoder.VERSION.getVersion("2.21-SNAPSHOT"));
+    assertEquals(GSVersionDecoder.VERSION.ABOVE, GSVersionDecoder.VERSION.getVersion("2.42"));
+    assertEquals(GSVersionDecoder.VERSION.ABOVE, GSVersionDecoder.VERSION.getVersion("2.42-SNAPSHOT"));
+    
+    assertEquals(GSVersionDecoder.VERSION.UNRECOGNIZED, GSVersionDecoder.VERSION.getVersion("3.0"));
+    assertEquals(GSVersionDecoder.VERSION.UNRECOGNIZED, GSVersionDecoder.VERSION.getVersion("anystring"));
+    assertEquals(GSVersionDecoder.VERSION.UNRECOGNIZED, GSVersionDecoder.VERSION.getVersion(null));
+  }
+  
 }

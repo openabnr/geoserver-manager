@@ -43,89 +43,102 @@ import java.net.URI;
  * @author Oscar Fonts
  */
 public class GSNamespaceEncoder extends PropertyXMLEncoder {
-
-	public final static String NAMESPACE="namespace";
-	public final static String PREFIX="prefix";
-	public final static String URI="uri";
-
-    /**
-     * Create a namespace XML encoder.
-     * 
-     * @param prefix the namespace prefix
-     * @param uri the namespace URI
-     * @throws IllegalArgumentException if prefix or uri are null or empty
-     */
-    public GSNamespaceEncoder(String prefix, URI uri) {
-    	super(NAMESPACE);
-
-    	ensureValidPrefix(prefix);
-		ensureValidURI(uri);
-
-		add(PREFIX, prefix);
-		add(URI, uri.toString());
-    }
+  
+  public final static String NAMESPACE = "namespace";
+  public final static String PREFIX = "prefix";
+  public final static String URI = "uri";
+  
+  /**
+   * Create a namespace XML encoder.
+   * 
+   * @param prefix
+   *          the namespace prefix
+   * @param uri
+   *          the namespace URI
+   * @throws IllegalArgumentException
+   *           if prefix or uri are null or empty
+   */
+  public GSNamespaceEncoder(String prefix, URI uri) {
+    super(NAMESPACE);
     
-    /**
-     * Get the namespace prefix.
-     * @return the prefix
-     */
-    public String getPrefix() {
-    	return ElementUtils.contains(getRoot(), PREFIX).getTextTrim();
-    }
-
-    /**
-     * Change the namespace prefix.
-     * @param prefix the new prefix
-     * @throws IllegalArgumentException if prefix is null or empty
-     */
-    public void setPrefix(final String prefix) {
-    	ensureValidPrefix(prefix);
-    	ElementUtils.contains(getRoot(), PREFIX).setText(prefix);
-    }
+    ensureValidPrefix(prefix);
+    ensureValidURI(uri);
     
-    /**
-     * Get the namespace uri.
-     * @return the uri
-     */
-    public URI getURI() {
-    	String sUri = ElementUtils.contains(getRoot(), URI).getTextTrim();
-   		return java.net.URI.create(sUri);
+    add(PREFIX, prefix);
+    add(URI, uri.toString());
+  }
+  
+  /**
+   * Get the namespace prefix.
+   * 
+   * @return the prefix
+   */
+  public String getPrefix() {
+    return ElementUtils.contains(getRoot(), PREFIX).getTextTrim();
+  }
+  
+  /**
+   * Change the namespace prefix.
+   * 
+   * @param prefix
+   *          the new prefix
+   * @throws IllegalArgumentException
+   *           if prefix is null or empty
+   */
+  public void setPrefix(final String prefix) {
+    ensureValidPrefix(prefix);
+    ElementUtils.contains(getRoot(), PREFIX).setText(prefix);
+  }
+  
+  /**
+   * Get the namespace uri.
+   * 
+   * @return the uri
+   */
+  public URI getURI() {
+    String sUri = ElementUtils.contains(getRoot(), URI).getTextTrim();
+    return java.net.URI.create(sUri);
+  }
+  
+  /**
+   * change the nampespace uri.
+   * 
+   * @param URI
+   *          the new uri
+   * @throws IllegalArgumentException
+   *           if uri is null or empty
+   */
+  public void setURI(final URI uri) {
+    ensureValidURI(uri);
+    String sUri = uri.toString();
+    ElementUtils.contains(getRoot(), URI).setText(sUri);
+  }
+  
+  /**
+   * Check prefix value.
+   * 
+   * @param prefix
+   *          the prefix
+   * @throws IllegalArgumentException
+   *           if prefix is null or empty
+   */
+  private static void ensureValidPrefix(String prefix) {
+    if (prefix == null || prefix.isEmpty()) {
+      throw new IllegalArgumentException("Namespace prefix cannot be null or empty");
     }
-    
-    /**
-     * change the nampespace uri.
-     * @param URI the new uri
-     * @throws IllegalArgumentException if uri is null or empty
-     */
-    public void setURI(final URI uri) {
-    	ensureValidURI(uri);
-    	String sUri = uri.toString();    	
-    	ElementUtils.contains(getRoot(), URI).setText(sUri);
+  }
+  
+  /**
+   * Check uri value.
+   * 
+   * @param prefix
+   *          the uri
+   * @throws IllegalArgumentException
+   *           if uri is null or empty
+   */
+  private static void ensureValidURI(URI uri) {
+    if (uri == null || uri.toString().isEmpty()) {
+      throw new IllegalArgumentException("Namespace uri cannot be null or empty");
     }
-    
-    /**
-     * Check prefix value.
-     * 
-     * @param prefix the prefix
-     * @throws IllegalArgumentException if prefix is null or empty
-     */
-    private static void ensureValidPrefix(String prefix) {
-		if (prefix == null || prefix.isEmpty()) {
-			throw new IllegalArgumentException(
-				"Namespace prefix cannot be null or empty");			
-		}    	
-    }
-    
-    /**
-     * Check uri value.
-     * 
-     * @param prefix the uri
-     * @throws IllegalArgumentException if uri is null or empty
-     */
-    private static void ensureValidURI(URI uri) {
-		if (uri == null || uri.toString().isEmpty()) {
-			throw new IllegalArgumentException(
-				"Namespace uri cannot be null or empty");
-		}   	
-    }
+  }
 }
