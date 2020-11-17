@@ -33,15 +33,16 @@ import it.geosolutions.geoserver.rest.decoder.RESTDataStore;
  * @author Oscar Fonts
  */
 public class GSOracleNGDatastoreEncoder extends GSAbstractDatastoreEncoder {
-  
+
   static final String TYPE = "Oracle NG";
-  
+
   static final String DEFAULT_DB_TYPE = "oracle";
   static final int DEFAULT_MIN_CONNECTIONS = 1;
   static final int DEFAULT_MAX_CONNECTIONS = 10;
   static final int DEFAULT_FETCH_SIZE = 1000;
   static final int DEFAULT_CONNECTION_TIMEOUT = 20;
   static final boolean DEFAULT_LOOSE_BBOX = true;
+  static final boolean DEFAULT_METADATA_BBOX = false;
   static final boolean DEFAULT_PREPARED_STATEMENTS = true;
   static final int DEFAULT_MAX_OPEN_PREPARED_STATEMENTS = 50;
   static final boolean DEFAULT_ESTIMATED_EXTENDS = true;
@@ -51,7 +52,7 @@ public class GSOracleNGDatastoreEncoder extends GSAbstractDatastoreEncoder {
   static final int DEFAULT_EVICTOR_RUN_PERIODICITY = 300;
   static final int DEFAULT_MAX_CONNECTION_IDLE_TIME = 300;
   static final int DEFAULT_EVICTOR_TESTS_PER_RUN = 3;
-  
+
   /**
    * Create an {@value #TYPE} datastore with default connection parameters, given a store name, and a database name.
    *
@@ -62,18 +63,19 @@ public class GSOracleNGDatastoreEncoder extends GSAbstractDatastoreEncoder {
    */
   public GSOracleNGDatastoreEncoder(String name, String database) {
     super(name);
-    
+
     // Set mandatory parameter
     setType(TYPE);
     setDatabaseType(DEFAULT_DB_TYPE);
     setDatabase(database);
-    
+
     // Set default values
     setMinConnections(DEFAULT_MIN_CONNECTIONS);
     setMaxConnections(DEFAULT_MAX_CONNECTIONS);
     setFetchSize(DEFAULT_FETCH_SIZE);
     setConnectionTimeout(DEFAULT_CONNECTION_TIMEOUT);
     setLooseBBox(DEFAULT_LOOSE_BBOX);
+    setMetadataBbox(DEFAULT_METADATA_BBOX);
     setPreparedStatements(DEFAULT_PREPARED_STATEMENTS);
     setMaxOpenPreparedStatements(DEFAULT_MAX_OPEN_PREPARED_STATEMENTS);
     setEstimatedExtends(DEFAULT_ESTIMATED_EXTENDS);
@@ -84,7 +86,7 @@ public class GSOracleNGDatastoreEncoder extends GSAbstractDatastoreEncoder {
     setMaxConnectionIdleTime(DEFAULT_MAX_CONNECTION_IDLE_TIME);
     setEvictorTestsPerRun(DEFAULT_EVICTOR_TESTS_PER_RUN);
   }
-  
+
   /**
    * Create an {@value #TYPE} datastore encoder from an existing store read from server.
    *
@@ -95,111 +97,115 @@ public class GSOracleNGDatastoreEncoder extends GSAbstractDatastoreEncoder {
    */
   public GSOracleNGDatastoreEncoder(RESTDataStore store) {
     super(store);
-    
+
     // Check mandatory parameter validity
     ensureValidDatabase(store.getConnectionParameters().get("database"));
   }
-  
+
   public void setHost(String host) {
     connectionParameters.set("host", host);
   }
-  
+
   public void setPort(int port) {
     connectionParameters.set("port", Integer.toString(port));
   }
-  
+
   public void setNamespace(String namespace) {
     connectionParameters.set("namespace", namespace);
   }
-  
+
   public void setDatabase(String database) {
     connectionParameters.set("database", database);
   }
-  
+
   public void setSchema(String schema) {
     connectionParameters.set("schema", schema);
   }
-  
+
   public void setUser(String user) {
     connectionParameters.set("user", user);
   }
-  
+
   public void setPassword(String password) {
     connectionParameters.set("passwd", password);
   }
-  
+
   public void setDatabaseType(String dbtype) {
     connectionParameters.set("dbtype", dbtype);
   }
-  
+
   public void setJndiReferenceName(String jndiReferenceName) {
     connectionParameters.set("jndiReferenceName", jndiReferenceName);
   }
-  
+
   public void setExposePrimaryKeys(boolean exposePrimaryKeys) {
     connectionParameters.set("Expose primary keys", Boolean.toString(exposePrimaryKeys));
   }
-  
+
   public void setMaxConnections(int maxConnections) {
     connectionParameters.set("max connections", Integer.toString(maxConnections));
   }
-  
+
   public void setMinConnections(int minConnections) {
     connectionParameters.set("min connections", Integer.toString(minConnections));
   }
-  
+
   public void setFetchSize(int fetchSize) {
     connectionParameters.set("fetch size", Integer.toString(fetchSize));
   }
-  
+
   public void setConnectionTimeout(int seconds) {
     connectionParameters.set("Connection timeout", Integer.toString(seconds));
   }
-  
+
   public void setValidateConnections(boolean validateConnections) {
     connectionParameters.set("validate connections", Boolean.toString(validateConnections));
   }
-  
+
   public void setPrimaryKeyMetadataTable(String primaryKeyMetadataTable) {
     connectionParameters.set("Primary key metadata table", primaryKeyMetadataTable);
   }
-  
+
   public void setLooseBBox(boolean looseBBox) {
     connectionParameters.set("Loose bbox", Boolean.toString(looseBBox));
   }
-  
+
+  public void setMetadataBbox(boolean metadataBbox) {
+    connectionParameters.set("Metadata bbox", Boolean.toString(metadataBbox));
+  }
+
   public void setPreparedStatements(boolean preparedStatements) {
     connectionParameters.set("preparedStatements", Boolean.toString(preparedStatements));
   }
-  
+
   public void setMaxOpenPreparedStatements(int maxOpenPreparedStatements) {
     connectionParameters.set("Max open prepared statements", Integer.toString(maxOpenPreparedStatements));
   }
-  
+
   public void setEstimatedExtends(boolean estimatedExtends) {
     connectionParameters.set("Estimated extends", Boolean.toString(estimatedExtends));
   }
-  
+
   public void setTestWhileIdle(boolean testWhileIdle) {
     connectionParameters.set("Test while idle", Boolean.toString(testWhileIdle));
   }
-  
+
   public void setBatchInsertSize(int batchInsertSize) {
     connectionParameters.set("Batch insert size", Integer.toString(batchInsertSize));
   }
-  
+
   public void setEvictorRunPeriodicity(int evictorRunPeriodicity) {
     connectionParameters.set("Evictor run periodicity", Integer.toString(evictorRunPeriodicity));
   }
-  
+
   public void setMaxConnectionIdleTime(int maxConnectionIdleTime) {
     connectionParameters.set("Max connection idle time", Integer.toString(maxConnectionIdleTime));
   }
-  
+
   public void setEvictorTestsPerRun(int evictorTestsPerRun) {
     connectionParameters.set("Evictor tests per run", Integer.toString(evictorTestsPerRun));
   }
-  
+
   /**
    * Check database validity.
    *
@@ -213,7 +219,7 @@ public class GSOracleNGDatastoreEncoder extends GSAbstractDatastoreEncoder {
       throw new IllegalArgumentException("Oracle store database cannot be null or empty");
     }
   }
-  
+
   /**
    * @return {@value #TYPE}
    */
